@@ -1,6 +1,7 @@
 import db from "../db.js";
 import { DataTypes } from "sequelize";
-const TodoGroup = db.define("todo_group", {
+import User from "./users.js";
+const TodoGroup = db.define("todoGroup", {
   id: {
     type: DataTypes.INTEGER,
     autoIncrement: true,

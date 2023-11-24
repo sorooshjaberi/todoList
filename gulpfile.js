@@ -1,6 +1,9 @@
-const gulp = require("gulp");
-const exec = require("gulp-exec");
-const nodemon = require("gulp-nodemon");
+// const gulp = require("gulp");
+// const exec = require("gulp-exec");
+// const nodemon = require("gulp-nodemon");
+import gulp from "gulp";
+import exec from "gulp-exec";
+import nodemon from "gulp-nodemon";
 
 gulp.task("webpack", (done) => {
   exec("yarn build");
@@ -10,7 +13,7 @@ gulp.task("webpack", (done) => {
 gulp.task("distWatcher", (done) => {
   nodemon({
     exec: "dist/bundle.js",
-    watch: "dist",
+    watch: "src/index.js",
     ext: "js",
   });
   done();
