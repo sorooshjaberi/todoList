@@ -1,23 +1,46 @@
-import { QueryTypes } from "sequelize";
+import { Op, QueryTypes } from "sequelize";
 import Todo from "../../models/app/todos.js";
 import db from "../../models/db.js";
 import TodoGroup from "../../models/app/todo_groups.js";
 import User from "../../models/app/users.js";
 
-export const showAllTodos = async function (req, res) {
+export const showGroups = async function (req, res) {
   const user = req.userId;
+  const {
+    params: { parent },
+  } = req;
 
-  const todoGroups = await User.findByPk(user, {
-    include: {
-      // model: TodoGroup,
-      // include: [TodoGroup, Todo],
-      nested: true,
-      all: true,
-    },
-  });
-
-  res.json(todoGroups);
+  try {
+    const groups = await getGroups(user, parent);
+    res.status(200).json(groups);
+  } catch (error) {
+    res.status(400).json({
+      message: error.message,
+    });
+  }
 };
+
+async function getGroups(user, parent) {
+  let groups;
+  if (user) {
+    if (parent) {
+      groups = await TodoGroup.findAll({
+        where: {
+          todoGroupId: parent,
+        },
+      });
+    } else {
+      groups = await TodoGroup.findAll({
+        where: {
+          userId: user,
+        },
+      });
+    }
+  } else {
+    throw new Error("no user provided");
+  }
+  return groups;
+}
 export const addATodo = async function (req, res) {
   const { userId, groupData, todoData } = req.body;
   const user = await User.findOne({
