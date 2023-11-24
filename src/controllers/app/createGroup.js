@@ -9,7 +9,7 @@ export async function createGroup(req, res) {
     res.status(400);
     throw new Error("name is empty");
   }
-  const todoGroup = TodoGroup.create({ name });
+  const todoGroup = await TodoGroup.create({ name });
   try {
     if (parent) {
       await createNewGroupForGroup(todoGroup, parent);
@@ -20,7 +20,7 @@ export async function createGroup(req, res) {
       id: todoGroup.id,
     });
   } catch (error) {
-    res.status(400).send(error.message);
+    res.status(400).json({ message: error.message });
   }
 }
 
@@ -48,7 +48,6 @@ async function createNewGroupForGroup(todoGroup, parent) {
   if (parentGroup) {
     await parentGroup.addTodoGroup(todoGroup);
   } else {
-    res.status(400);
     throw new Error("there is no such parent group");
   }
 }
