@@ -1,7 +1,7 @@
 import { Op, QueryTypes } from "sequelize";
 import Todo from "../../models/app/todos.js";
 import db from "../../models/db.js";
-import TodoGroup from "../../models/app/todo_groups.js";
+import TodoGroup from "../../models/app/todoGroups.js";
 import User from "../../models/app/users.js";
 
 export const showGroups = async function (req, res) {

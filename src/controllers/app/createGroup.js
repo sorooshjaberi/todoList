@@ -1,4 +1,4 @@
-import TodoGroup from "../../models/app/todo_groups.js";
+import TodoGroup from "../../models/app/todoGroups.js";
 import User from "../../models/app/users.js";
 import db from "../../models/db.js";
 

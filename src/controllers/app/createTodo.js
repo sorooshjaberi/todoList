@@ -1,4 +1,4 @@
-import TodoGroup from "../../models/app/todo_groups.js";
+import TodoGroup from "../../models/app/todoGroups.js";
 
 export const createTodo = async (req, res) => {
   const { parent, todoTitle } = req.body;
