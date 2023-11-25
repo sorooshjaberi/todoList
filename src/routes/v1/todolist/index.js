@@ -13,8 +13,6 @@ todolistRouter.get("/todoGroups/:parent?", showGroups);
 
 todolistRouter.post("/todoGroups/new", createGroup);
 
-todolistRouter.post("/add", addATodo);
-
 todolistRouter.post("/todos/new", createTodo);
 
 todolistRouter.put("/todos/:todoId/edit", editTodo);
