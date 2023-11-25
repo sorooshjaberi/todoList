@@ -1,6 +1,6 @@
 import Todo from "../../models/app/todos.js";
 
-export const singleSoftDelete = async (req, res) => {
+export const todoSingleSoftDelete = async (req, res) => {
   const { todoId } = req.params;
   try {
     await handleSoftDelete(todoId);
