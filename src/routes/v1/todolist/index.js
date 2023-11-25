@@ -2,6 +2,7 @@ import express from "express";
 import { addATodo, showGroups } from "../../../controllers/app/showAll.js";
 import { createGroup } from "../../../controllers/app/createGroup.js";
 import { createTodo } from "../../../controllers/app/createTodo.js";
+import { editTodo } from "../../../controllers/app/editTodo.js";
 
 const todolistRouter = express.Router();
 
@@ -11,6 +12,8 @@ todolistRouter.post("/todoGroups/new", createGroup);
 
 todolistRouter.post("/add", addATodo);
 
-todolistRouter.post("/todos/new",createTodo)
+todolistRouter.post("/todos/new", createTodo);
+
+todolistRouter.put("/todos/:todoId/edit", editTodo);
 
 export default todolistRouter;
