@@ -21,16 +21,24 @@ export const showGroups = async function (req, res) {
 };
 
 async function getGroups(user, parent) {
-  let groups;
+  let children;
   if (user) {
     if (parent) {
-      groups = await TodoGroup.findAll({
+      const parentGroup = await TodoGroup.findOne({
         where: {
-          todoGroupId: parent,
+          id: parent,
         },
+        include: Todo,
       });
+      if (!parentGroup) {
+        throw new Error("there is no such parent");
+      }
+      children = {
+        children: await parentGroup.getTodoGroups(),
+        todos: parentGroup.todos,
+      };
     } else {
-      groups = await TodoGroup.findAll({
+      children = await TodoGroup.findAll({
         where: {
           userId: user,
         },
@@ -39,7 +47,7 @@ async function getGroups(user, parent) {
   } else {
     throw new Error("no user provided");
   }
-  return groups;
+  return children;
 }
 export const addATodo = async function (req, res) {
   const { userId, groupData, todoData } = req.body;

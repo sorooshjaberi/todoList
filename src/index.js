@@ -11,8 +11,6 @@ const app = express();
 
 app.use(express.json());
 
-app.get("/", (req, res) => res.redirect("/app"));
-
 app.use((req, res, next) => {
   req.userId = "1";
   next();
