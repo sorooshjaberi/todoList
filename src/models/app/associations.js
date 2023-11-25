@@ -6,10 +6,12 @@ import User from "./users.js";
 User.hasMany(TodoGroup);
 TodoGroup.belongsTo(User);
 
-TodoGroup.hasMany(Todo,{
-    onDelete : "CASCADE"
+TodoGroup.hasMany(Todo, {
+  onDelete: "CASCADE",
 });
-Todo.belongsTo(TodoGroup);
+Todo.belongsTo(TodoGroup, {
+  onDelete: "CASCADE",
+});
 
 TodoGroup.hasMany(TodoGroup);
 TodoGroup.belongsTo(TodoGroup);
