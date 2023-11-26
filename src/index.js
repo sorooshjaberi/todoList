@@ -19,7 +19,7 @@ app.use((req, res, next) => {
 app.use("/api/v1", routerV1);
 
 app.listen(8000, async () => {
-  await db.sync({ force: true });
+  // await db.sync({ force: true });
   // await db.sync({alter : true})
   const user = await User.create({
     name: "soroush",
