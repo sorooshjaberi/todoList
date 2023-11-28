@@ -34,16 +34,19 @@ async function getGroups(user, parent) {
         throw new Error("there is no such parent");
       }
       children = {
-        children: await parentGroup.getTodoGroups(),
+        groups: await parentGroup.getTodoGroups(),
         todos: parentGroup.todos,
       };
     } else {
-      children = await TodoGroup.findAll({
-        where: {
-          userId: user,
-        },
-      });
+      children = {
+        groups: await TodoGroup.findAll({
+          where: {
+            userId: user,
+          },
+        }),
+      };
     }
+    console.log({children})
   } else {
     throw new Error("no user provided");
   }

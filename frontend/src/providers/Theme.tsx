@@ -20,9 +20,9 @@ const Theme: FC<Props> = (props) => {
       mode,
     },
     typography: {
-      fontFamily: "Roboto",
-      fontWeightRegular: "100",
-      fontWeightMedium: "300",
+      fontFamily: "Nunito",
+      fontWeightRegular: "300",
+      fontWeightMedium: "700",
     },
   });
 

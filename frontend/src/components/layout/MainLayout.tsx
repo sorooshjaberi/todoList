@@ -6,6 +6,16 @@ type Props = {
   children: ReactNode;
 };
 const MainLayout = (props: Props) => {
-  return <Box className="h-[100dvh] overflow-y-auto">{props.children}</Box>;
+  return (
+    <Box
+      className="h-[100dvh] overflow-y-auto"
+      sx={{
+        background:
+          "linear-gradient(62deg, rgba(73, 0, 63, 0.348) 0%, rgba(53, 0, 138, 0.647) 100%);100%)",
+      }}
+    >
+      {props.children}
+    </Box>
+  );
 };
 export default MainLayout;
