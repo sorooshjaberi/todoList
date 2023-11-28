@@ -12,7 +12,7 @@ const GroupItem = (props: Props) => {
   return (
     <>
       <Box
-        className="flex h-[4rem] cursor-pointer select-none items-center bg-[#5a5a5a38] px-2 py-1 backdrop-blur hover:shadow-meloInner transition-all"
+        className="flex h-[4rem] cursor-pointer select-none items-center bg-[#5a5a5a38] px-2 py-1 backdrop-blur hover:bg-[#9c9c9c38] transition-all duration-300"
         onClick={() => setEnabled(true)}
         borderLeft={1}
         borderColor={({ palette }) => palette.primary.light}

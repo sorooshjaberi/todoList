@@ -5,7 +5,7 @@ import {
   ThemeProvider,
   createTheme,
 } from "@mui/material";
-import { purple } from "@mui/material/colors";
+import { blue, purple } from "@mui/material/colors";
 import usePaletteMode from "../hooks/ui/usePaletteMode";
 type Props = {
   children: ReactNode;
@@ -16,7 +16,7 @@ const Theme: FC<Props> = (props) => {
 
   const theme = createTheme({
     palette: {
-      primary: purple,
+      primary: blue,
       mode,
     },
     typography: {

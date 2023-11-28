@@ -14,6 +14,7 @@ const SideBar = (props: Props) => {
       borderColor={({ palette }) => palette.primary.light}
     >
       <SideBarHeader />
+      
       {data?.groups?.map((group, index) => (
         <GroupItem key={index} group={group} />
       ))}

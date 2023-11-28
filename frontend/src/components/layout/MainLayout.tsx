@@ -10,8 +10,8 @@ const MainLayout = (props: Props) => {
     <Box
       className="h-[100dvh] overflow-y-auto"
       sx={{
-        background:
-          "linear-gradient(62deg, rgba(73, 0, 63, 0.348) 0%, rgba(53, 0, 138, 0.647) 100%);100%)",
+        background: ({palette}) =>
+          `linear-gradient(62deg, rgba(73, 0, 63, 0.348) 0%, rgba(53, 0, 138, 0.647) 100%);100%)`,
       }}
     >
       {props.children}
