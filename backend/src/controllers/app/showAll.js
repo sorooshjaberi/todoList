@@ -46,7 +46,6 @@ async function getGroups(user, parent) {
         }),
       };
     }
-    console.log({children})
   } else {
     throw new Error("no user provided");
   }
