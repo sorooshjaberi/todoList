@@ -6,37 +6,48 @@ import {
   RadioButtonUnchecked,
 } from "@mui/icons-material";
 import { useState } from "react";
+import TranslateL2RSmall from "../../ui/TranslateL2RSmall";
 
-type Props = { todo: Todo };
+type Props = { todo: Todo; index: number; depth: number };
 const TodoItem = (props: Props) => {
-  const { todo } = props;
+  const { todo , index } = props;
   const [checked, setChecked] = useState<boolean>(!!todo.done);
   return (
-    <Box
-      className="flex h-[4rem] cursor-pointer select-none items-center bg-[#e4e4e438] py-1 backdrop-blur"
-      borderLeft={2}
-      borderColor={({ palette }) => palette.primary.light}
+    <TranslateL2RSmall
+      motionProps={{
+        transition: {
+          delay: index * 0.3,
+          type: "spring",
+          stiffness: 1000,
+        },
+      }}
     >
-      <Checkbox
-        onChange={(e) => setChecked(e.target.checked)}
-        checked={checked}
-        icon={<RadioButtonUnchecked />}
-        checkedIcon={<RadioButtonChecked />}
-        sx={{
-          scale: ".8",
-        }}
-      />
-      <Typography
-        variant="subtitle1"
-        fontSize={18}
-        sx={({ palette }) => ({
-          textDecoration: checked ? "line-through" : "unset",
-          color: checked ? palette.grey.A400 : undefined,
-        })}
+      <Box
+        className="flex h-[4rem] cursor-pointer select-none items-center bg-[#e4e4e438] py-1"
+        borderLeft={2}
+        borderColor={({ palette }) => palette.primary.light}
       >
-        {todo.title}
-      </Typography>
-    </Box>
+        <Checkbox
+          onChange={(e) => setChecked(e.target.checked)}
+          checked={checked}
+          icon={<RadioButtonUnchecked />}
+          checkedIcon={<RadioButtonChecked />}
+          sx={{
+            scale: ".8",
+          }}
+        />
+        <Typography
+          variant="subtitle1"
+          fontSize={18}
+          sx={({ palette }) => ({
+            textDecoration: checked ? "line-through" : "unset",
+            color: checked ? palette.grey.A400 : undefined,
+          })}
+        >
+          {todo.title}
+        </Typography>
+      </Box>
+    </TranslateL2RSmall>
   );
 };
 export default TodoItem;
