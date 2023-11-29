@@ -5,8 +5,5 @@ export const motionVariants: Variants = {
   },
   swipFromLeft10: {
     x: 0,
-    transition: {
-      stiffness: 1000, type : "spring"
-    },
   },
 };
