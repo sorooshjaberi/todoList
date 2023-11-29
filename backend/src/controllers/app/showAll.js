@@ -1,4 +1,4 @@
-import { Op, QueryTypes , fn } from "sequelize";
+import { Op, QueryTypes, fn } from "sequelize";
 import Todo from "../../models/app/todos.js";
 import db from "../../models/db.js";
 import TodoGroup from "../../models/app/todoGroups.js";
@@ -36,12 +36,13 @@ async function getGroups(user, parent) {
         where: {
           todoGroupId: parent,
         },
-        order : [["createdAt","DESC"]]
+        order: [["createdAt", "DESC"]],
       });
       children = {
-        groups: await parentGroup.getTodoGroups(),
-        // todos: parentGroup.todos,
-        todos
+        groups: await parentGroup.getTodoGroups({
+          order: [["createdAt", "DESC"]],
+        }),
+        todos,
       };
     } else {
       children = {
@@ -49,6 +50,7 @@ async function getGroups(user, parent) {
           where: {
             userId: user,
           },
+          order: [["createdAt", "DESC"]],
         }),
       };
     }

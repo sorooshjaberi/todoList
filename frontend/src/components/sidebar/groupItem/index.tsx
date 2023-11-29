@@ -40,7 +40,7 @@ const GroupItem = (props: Props) => {
   const { mutateAsync, isPending } = useAddGroup();
 
   const tempGroups = [...(groupChildren?.groups || [])];
-  console.log({ tempNewFolder });
+
   if (tempNewFolder) {
     tempGroups.unshift(tempNewFolder);
   }
