@@ -1,5 +1,5 @@
 import express from "express";
-import { addATodo, showGroups } from "../../../controllers/app/showAll.js";
+import { showGroups } from "../../../controllers/app/showAll.js";
 import { createGroup } from "../../../controllers/app/createGroup.js";
 import { createTodo } from "../../../controllers/app/createTodo.js";
 import { editTodo } from "../../../controllers/app/editTodo.js";

@@ -24,18 +24,4 @@ app.listen(8000, async () => {
   const user = await User.create({
     name: "soroush",
   });
-
-  // const group1 = await TodoGroup.create({
-  //   name: "group1",
-  //   userId: "1",
-  // });
-
-  // const todo = await Todo.create({
-  //   title: "hello",
-  //   description: "this is a desc",
-  // });
-
-  // await group1.addTodo(todo);
-
-  // await user.addTodoGroup(group1);
 });

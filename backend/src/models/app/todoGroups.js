@@ -14,9 +14,5 @@ const TodoGroup = db.define(
       allowNull: false,
     },
   },
-  {
-    // paranoid: true,
-    // hooks: true,
-  }
 );
 export default TodoGroup;
