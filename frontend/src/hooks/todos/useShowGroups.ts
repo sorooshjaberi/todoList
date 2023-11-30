@@ -13,6 +13,10 @@ const useShowGroups = (groupNumber?: number, enabled: boolean = true) => {
     gcTime: 1000 * 60 * 60,
     enabled,
     meta: {
+      onSuccess(data) {
+        const path = (data.data as ShowGroupResponse).parentPath;
+        setCurrentPath(path);
+      },
       onError(error: Error) {
         errorToast(error.message);
       },

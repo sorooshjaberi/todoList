@@ -3,13 +3,9 @@ import useShowGroups from "../../hooks/todos/useShowGroups";
 import { memo, useEffect } from "react";
 import SideBarHeader from "./header";
 import GroupItem from "./groupItem";
-import { useTodoHandler } from "../../providers/TodoHandler";
-
 type Props = {};
 const SideBar = (props: Props) => {
   const { data } = useShowGroups();
-
-  const { setCurrentPath } = useTodoHandler();
 
   return (
     <Box className="flex h-full flex-col">
