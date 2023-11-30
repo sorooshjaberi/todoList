@@ -20,6 +20,8 @@ export const showGroups = async function (req, res) {
   }
 };
 
+const orderDescByCreatedAt = [["createdAt", "DESC"]];
+
 async function getGroups(user, parent) {
   if (!user) {
     throw new Error("No user provided");
@@ -28,7 +30,9 @@ async function getGroups(user, parent) {
   if (parent) {
     const parentGroup = await findParentGroup(parent);
     const todos = await findTodosInGroup(parent);
-    const groups = await parentGroup.getTodoGroups(orderDescByCreatedAt);
+    const groups = await parentGroup.getTodoGroups({
+      order: orderDescByCreatedAt,
+    });
     const parentPath = await getParentPath(parent);
     return { groups, todos, parentPath };
   } else {
@@ -63,8 +67,6 @@ async function findGroupsByUser(userId) {
     order: orderDescByCreatedAt,
   });
 }
-
-const orderDescByCreatedAt = [["createdAt", "DESC"]];
 
 async function getParentPath(childId, path = []) {
   const child = await TodoGroup.findByPk(childId, { include: TodoGroup });
