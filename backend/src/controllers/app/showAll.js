@@ -21,76 +21,62 @@ export const showGroups = async function (req, res) {
 };
 
 async function getGroups(user, parent) {
-  let children;
-  if (user) {
-    if (parent) {
-      const parentGroup = await TodoGroup.findOne({
-        where: {
-          id: parent,
-        },
-      });
-      if (!parentGroup) {
-        throw new Error("there is no such parent");
-      }
-      const todos = await Todo.findAll({
-        where: {
-          todoGroupId: parent,
-        },
-        order: [["createdAt", "DESC"]],
-      });
-      children = {
-        groups: await parentGroup.getTodoGroups({
-          order: [["createdAt", "DESC"]],
-        }),
-        todos,
-      };
-    } else {
-      children = {
-        groups: await TodoGroup.findAll({
-          where: {
-            userId: user,
-          },
-          order: [["createdAt", "DESC"]],
-        }),
-      };
-    }
+  if (!user) {
+    throw new Error("No user provided");
+  }
+
+  if (parent) {
+    const parentGroup = await findParentGroup(parent);
+    const todos = await findTodosInGroup(parent);
+    const groups = await parentGroup.getTodoGroups(orderDescByCreatedAt);
+    const parentPath = await getParentPath(parent);
+    return { groups, todos, parentPath };
   } else {
-    throw new Error("no user provided");
+    const groups = await findGroupsByUser(user);
+    const parentPath = await getParentPath(parent);
+    return { groups, parentPath };
   }
-  return children;
 }
-export const addATodo = async function (req, res) {
-  const { userId, groupData, todoData } = req.body;
-  const user = await User.findOne({
-    where: {
-      id: userId,
-    },
-    include: [
-      {
-        model: TodoGroup,
-        include: [{ model: Todo }],
-      },
-    ],
+
+async function findParentGroup(parentId) {
+  const parentGroup = await TodoGroup.findOne({
+    where: { id: parentId },
   });
 
-  const [todoGroup, created] = await TodoGroup.findOrCreate({
-    where: {
-      id: groupData.id,
-    },
-    defaults: groupData,
-  });
-
-  if (created) {
-    await user.addTodoGroup(todoGroup);
+  if (!parentGroup) {
+    throw new Error("There is no such parent");
   }
 
-  const [todo, updated] = await Todo.upsert(todoData, {
-    returning: true,
-  });
+  return parentGroup;
+}
 
-  if (!updated) {
-    await todoGroup.addTodo(todo);
+async function findTodosInGroup(groupId) {
+  return Todo.findAll({
+    where: { todoGroupId: groupId },
+    order: orderDescByCreatedAt,
+  });
+}
+
+async function findGroupsByUser(userId) {
+  return TodoGroup.findAll({
+    where: { userId },
+    order: orderDescByCreatedAt,
+  });
+}
+
+const orderDescByCreatedAt = [["createdAt", "DESC"]];
+
+async function getParentPath(childId, path = []) {
+  const child = await TodoGroup.findByPk(childId, { include: TodoGroup });
+
+  if (!child) {
+    return path; // Reached the top-level parent or invalid child ID
   }
 
-  res.status(200);
-};
+  console.log(child.toJSON());
+  path.unshift(child.id); // Add the current parent to the path
+
+  // Recursively call the function for the parent of the current child
+  // return getParentPath(child.todoGroupId, path);
+  return getParentPath(child.todoGroupId, path);
+}
