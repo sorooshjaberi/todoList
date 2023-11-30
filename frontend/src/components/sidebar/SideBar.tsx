@@ -9,24 +9,16 @@ type Props = {};
 const SideBar = (props: Props) => {
   const { data } = useShowGroups();
 
-  const { setCurrentFolder } = useTodoHandler();
-
-  useEffect(() => {
-    if (data?.groups?.length) {
-      setCurrentFolder(data.groups[0].id);
-    }
-  }, [data, setCurrentFolder]);
+  const { setCurrentPath } = useTodoHandler();
 
   return (
-    <Box
-      className="h-full flex flex-col"
-      borderRight={1}
-      borderColor={({ palette }) => palette.primary.light}
-    >
+    <Box className="flex h-full flex-col">
       <SideBarHeader />
-      <Box className="flex-1 overflow-y-auto">
+      <Box className="flex-1">
         {data?.groups?.map((group, index) => (
-          <GroupItem index={index} depth={0} key={index} group={group} />
+          <Box className=" my-4">
+            <GroupItem index={index} depth={0} key={index} group={group} />
+          </Box>
         ))}
       </Box>
     </Box>

@@ -14,9 +14,10 @@ const useShowTodo = (props: Props) => {
     select: (data) => data.data.todo,
     enabled: !isUndefined(todoId),
     gcTime: 1000 * 60 * 60,
-    throwOnError: (error) => {
-      errorToast(error.message);
-      return false;
+    meta: {
+      onError(error: Error) {
+        errorToast(error.message);
+      },
     },
   });
   return query;

@@ -7,9 +7,10 @@ const useAddTodo = () => {
   const mutation = useMutation({
     mutationFn: addTodo,
     mutationKey: ["createTodo"],
-    throwOnError(error) {
-      errorToast(error.message);
-      return false;
+    meta: {
+      onError(error: Error) {
+        errorToast(error.message);
+      },
     },
   });
   return mutation;

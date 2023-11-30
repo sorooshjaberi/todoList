@@ -5,6 +5,7 @@ import {
   Input,
   InputAdornment,
   Typography,
+  lighten,
   useTheme,
 } from "@mui/material";
 import { Todo } from "../../../models/todos";
@@ -20,13 +21,15 @@ import { motion } from "framer-motion";
 import { motionVariants } from "../../../lib/motion";
 import useAddTodo from "../../../hooks/todos/useAddTodo";
 import { useQueryClient } from "@tanstack/react-query";
+import AddInput from "../AddInput";
 
 type Props = { todo: Todo; index: number; depth: number; clearTemp(): void };
 const TodoItem = (props: Props) => {
   const { todo, index } = props;
   const [checked, setChecked] = useState<boolean>(!!todo.done);
 
-  const { setCurrentTodo, currentTodo, currentFolder } = useTodoHandler();
+  const { setCurrentTodo, currentTodo, currentPath, setCurrentPath } =
+    useTodoHandler();
 
   const { mutateAsync, isPending } = useAddTodo();
 
@@ -38,10 +41,13 @@ const TodoItem = (props: Props) => {
 
   const addHandler = (title: string) => {
     //send to backend
-    mutateAsync({ parent: currentFolder, todoTitle: title }).then(() => {
+    mutateAsync({
+      parent: currentPath[currentPath.length - 1],
+      todoTitle: title,
+    }).then(() => {
       props.clearTemp();
       queryClient.invalidateQueries({
-        queryKey: ["todoGroup", currentFolder],
+        queryKey: ["todoGroup", currentPath[currentPath.length - 1]],
       });
     });
   };
@@ -49,20 +55,13 @@ const TodoItem = (props: Props) => {
   const isThisCurrentTodo = currentTodo === todo.id;
 
   return (
-    <motion.div
-      variants={motionVariants}
-      initial="left10"
-      animate="swipFromLeft10"
-      transition={{
-        delay: index * 0.1,
-      }}
-    >
+    <>
       {todo.id !== 0 && (
         <Box
           className="flex h-[4rem] cursor-pointer select-none items-center bg-[#e4e4e438] py-1"
           borderLeft={2}
           borderColor={({ palette }) => palette.primary.light}
-          bgcolor={isThisCurrentTodo ? "#333333d3" : undefined}
+          bgcolor={isThisCurrentTodo ? lighten("#e4e4e438", 0.3) : undefined}
           onClick={selectTodoHandler}
         >
           <Checkbox
@@ -90,34 +89,26 @@ const TodoItem = (props: Props) => {
         </Box>
       )}
       {todo.id === 0 && (
-        <Box
-          className="flex h-[4rem] cursor-pointer select-none items-center bg-[#e4e4e438] px-2"
-          borderLeft={2}
-          borderColor={({ palette }) => palette.primary.light}
+        <motion.div
+          variants={motionVariants}
+          animate="float"
+          transition={{ duration: 0.5, repeatType: "mirror", repeat: Infinity }}
         >
-          <Input
-            autoFocus
-            fullWidth
-            disabled={isPending}
-            onBlur={(event) =>
-              event?.target?.value && addHandler(event?.target?.value)
-            }
-            onKeyUp={(event) =>
-              event.key === "Enter" &&
-              event?.currentTarget?.value &&
-              addHandler(event?.currentTarget?.value)
-            }
-            endAdornment={
-              isPending && (
-                <InputAdornment position="end">
-                  <CircularProgress size={10} className="mx-2" />
-                </InputAdornment>
-              )
-            }
-          />
-        </Box>
+          <Box
+            className="flex h-[4rem] cursor-pointer select-none items-center bg-[#e4e4e438] px-2"
+            borderLeft={2}
+            borderColor={({ palette }) => palette.primary.light}
+          >
+            <AddInput
+              {...{
+                addGroupHandler: addHandler,
+                isPending,
+              }}
+            />
+          </Box>
+        </motion.div>
       )}
-    </motion.div>
+    </>
   );
 };
 export default memo(TodoItem);

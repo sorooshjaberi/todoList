@@ -6,4 +6,7 @@ export const motionVariants: Variants = {
   swipFromLeft10: {
     x: 0,
   },
+  float: {
+    boxShadow: "0 0 10px 0px",
+  },
 };

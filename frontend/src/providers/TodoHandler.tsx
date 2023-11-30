@@ -1,23 +1,32 @@
-import { ReactNode, createContext, useContext, useState } from "react";
+import {
+  Dispatch,
+  ReactNode,
+  SetStateAction,
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 
 export const TodoHandlerCtx = createContext<{
-  setCurrentTodo(id: number): void;
-  setCurrentFolder(id: number): void;
+  setCurrentTodo: Dispatch<SetStateAction<number>>;
+  setCurrentPath: Dispatch<SetStateAction<number[]>>;
   currentTodo: number;
-  currentFolder: number;
+  currentPath: number[];
 }>({
   setCurrentTodo() {},
-  setCurrentFolder() {},
+  setCurrentPath() {},
   currentTodo: -1,
-  currentFolder: -1,
+  currentPath: [],
 });
 
 export const TodoHandlerProvider = (props: { children: ReactNode }) => {
   const [currentTodo, setCurrentTodo] = useState<number>();
-  const [currentFolder, setCurrentFolder] = useState<number>();
+  const [currentPath, setCurrentPath] = useState<number[]>([]);
+
   return (
     <TodoHandlerCtx.Provider
-      value={{ currentTodo, setCurrentTodo, currentFolder, setCurrentFolder }}
+      value={{ currentTodo, setCurrentTodo, currentPath, setCurrentPath }}
     >
       {props.children}
     </TodoHandlerCtx.Provider>

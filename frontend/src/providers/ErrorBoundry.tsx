@@ -14,8 +14,7 @@ export default class ErrorBoundry extends Component<Props, State> {
   static componentDidCatch(error, info) {
     const errorMessage = error.message;
     if (errorMessage) {
-    //   toast.error(errorMessage)
-    console.log({error,info})
+      console.log({ error, info });
     }
   }
   render() {

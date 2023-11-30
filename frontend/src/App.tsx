@@ -20,13 +20,13 @@ function App() {
           <QueryProvider>
             <TodoHandlerProvider>
               <MainLayout>
-                <Box className="flex h-full">
-                  <Box className="z-10 basis-[30%] p-2">
+                <Box className="flex h-full justify-center">
+                  <Box className="z-10 flex-1 max-w-[800px] p-2">
                     <SideBar />
                   </Box>
-                  <Box className="flex-1 p-2">
+                  {/* <Box className="flex-1 p-2">
                     <Todo />
-                  </Box>
+                  </Box> */}
                   {/* <Box className="basis-[25%] p-2">
                     <Controller />
                   </Box> */}
