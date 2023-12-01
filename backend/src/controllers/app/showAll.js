@@ -75,7 +75,6 @@ async function getParentPath(childId, path = []) {
     return path; // Reached the top-level parent or invalid child ID
   }
 
-  console.log(child.toJSON());
   path.unshift(child.id); // Add the current parent to the path
 
   // Recursively call the function for the parent of the current child
