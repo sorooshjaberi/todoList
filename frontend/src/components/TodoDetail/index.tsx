@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { ChangeEvent, useEffect, useState } from "react";
+import React, { ChangeEvent, memo, useEffect, useState } from "react";
 import useShowTodo from "../../hooks/todos/useShowTodo";
 import { useTodoHandler } from "../../providers/TodoHandler";
 import {
@@ -13,6 +13,7 @@ import useEditTodo from "../../hooks/todos/useEditTodo";
 import { Todo } from "../../models/todos";
 import useDebounce from "../../hooks/useDebounce";
 import { useQueryClient } from "@tanstack/react-query";
+import useFirstTime from "../../hooks/useFirstTime";
 
 type Props = { todoNumber: number; checked: boolean };
 
@@ -34,12 +35,14 @@ const TodoDetail = (props: Props) => {
 
   const debouncedValues = useDebounce(todoValues, 500);
 
+  const firstTime = useFirstTime();
+
   const { mutateAsync } = useEditTodo();
 
   const queryClient = useQueryClient();
 
   useEffect(() => {
-    if (todoValues) {
+    if (todoValues && !firstTime) {
       mutateAsync({ todoNumber: props.todoNumber, todoData: todoValues }).then(
         (res) => {
           queryClient.invalidateQueries({
@@ -90,4 +93,4 @@ const TodoDetail = (props: Props) => {
   );
 };
 
-export default TodoDetail;
+export default memo(TodoDetail);
