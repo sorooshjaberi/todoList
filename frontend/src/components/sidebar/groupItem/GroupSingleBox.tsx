@@ -1,5 +1,5 @@
 import { Add, CreateNewFolder, Delete } from "@mui/icons-material";
-import { Box, Typography } from "@mui/material";
+import { Box, IconButton, Typography } from "@mui/material";
 import React, { Dispatch, MouseEvent, SetStateAction } from "react";
 import { Todo, TodoGroup } from "../../../models/todos";
 import useDeleteGroup from "../../../hooks/todos/useDeleteGroup";
@@ -26,8 +26,7 @@ const GroupSingleBox = (props: Props) => {
         {group.name}
       </Typography>
       <Box className="flex gap-2" onClick={(e) => e.stopPropagation()}>
-        <Delete
-          className="hover:text-gray-400"
+        <IconButton
           onClick={(e) => {
             mutateAsync(group.id).then((deleteMessage) => {
               queryClient.invalidateQueries({
@@ -38,21 +37,25 @@ const GroupSingleBox = (props: Props) => {
               successToast(deleteMessage.data.message);
             });
           }}
-        />
-        <CreateNewFolder
+        >
+          <Delete className="hover:text-gray-400" />
+        </IconButton>
+        <IconButton
           onClick={(e) => {
             addGroupToPath();
             setTempNewFolder({ id: 0, name: "" });
           }}
-          className="hover:text-gray-400"
-        />
-        <Add
+        >
+          <CreateNewFolder className="hover:text-gray-400" />
+        </IconButton>
+        <IconButton
           onClick={(e) => {
             addGroupToPath();
             setTempNewTodo({ id: 0, title: "" });
           }}
-          className="hover:text-gray-400"
-        />
+        >
+          <Add className="hover:text-gray-400" />
+        </IconButton>
       </Box>
     </>
   );

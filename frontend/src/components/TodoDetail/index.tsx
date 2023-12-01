@@ -5,6 +5,7 @@ import { useTodoHandler } from "../../providers/TodoHandler";
 import {
   Box,
   CircularProgress,
+  IconButton,
   Snackbar,
   TextField,
   TextareaAutosize,
@@ -15,6 +16,9 @@ import { Todo } from "../../models/todos";
 import useDebounce from "../../hooks/useDebounce";
 import { useQueryClient } from "@tanstack/react-query";
 import useFirstTime from "../../hooks/useFirstTime";
+import useDeleteTodo from "../../hooks/todos/useDeleteTodo";
+import { Delete } from "@mui/icons-material";
+import { successToast } from "../../lib/Toastify";
 
 type Props = { todoNumber: number; checked: boolean };
 
@@ -24,6 +28,8 @@ const TodoDetail = (props: Props) => {
     isLoading,
     isSuccess,
   } = useShowTodo({ todoId: props.todoNumber });
+
+  const { mutateAsync: deleteTodo } = useDeleteTodo();
 
   const [todoValues, setTodoValues] = useState<Partial<Todo>>();
 
@@ -91,17 +97,25 @@ const TodoDetail = (props: Props) => {
           label="Description"
           multiline
         />
+        <Box>
+          <IconButton
+            onClick={(e) => {
+              deleteTodo(todoDetails.id).then((res) => {
+                successToast(res.data.message);
+                queryClient.invalidateQueries({
+                  queryKey: ["todoGroup", todoDetails.todoGroupId],
+                });
+              });
+            }}
+          >
+            <Delete color="error"/>
+          </IconButton>
+        </Box>
       </Box>
     );
   }
 
-  return (
-    <Box className="flex h-full select-none items-center justify-center">
-      <Typography variant="h3" color={"grey"} component={"h3"}>
-        Select a TodoDetail
-      </Typography>
-    </Box>
-  );
+  return <></>;
 };
 
 export default memo(TodoDetail);
