@@ -7,6 +7,7 @@ import {
   CircularProgress,
   Snackbar,
   TextField,
+  TextareaAutosize,
   Typography,
 } from "@mui/material";
 import useEditTodo from "../../hooks/todos/useEditTodo";
@@ -74,11 +75,21 @@ const TodoDetail = (props: Props) => {
   }
   if (isSuccess) {
     return (
-      <Box className="">
+      <Box className="flex flex-col gap-6 px-4">
         <TextField
+          fullWidth
           name="title"
           defaultValue={todoDetails.title}
           onChange={changeHandler}
+          label="Title"
+        />
+        <TextField
+          fullWidth
+          name="description"
+          defaultValue={todoDetails.description}
+          onChange={changeHandler}
+          label="Description"
+          multiline
         />
       </Box>
     );
