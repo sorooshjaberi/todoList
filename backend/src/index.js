@@ -6,10 +6,12 @@ import Todo from "./models/app/todos.js";
 import TodoGroup from "./models/app/todoGroups.js";
 import User from "./models/app/users.js";
 import routerV1 from "./routes/v1/router.js";
-
+import cors from 'cors'
 const app = express();
 
 app.use(express.json());
+
+app.use(cors())
 
 app.use((req, res, next) => {
   req.userId = "1";
