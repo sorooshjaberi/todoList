@@ -17,7 +17,7 @@ const MainLayout = (props: Props) => {
       }}
     >
       {props.children}
-      <ToastContainer position="top-center" />
+      <ToastContainer position="bottom-left" />
     </Box>
   );
 };
