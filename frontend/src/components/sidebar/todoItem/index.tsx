@@ -63,7 +63,7 @@ const TodoItem = (props: Props) => {
   const isTodoTemp = todo.id === 0;
 
   return (
-    <Accordion>
+    <Accordion expanded={isThisCurrentTodo}>
       <AccordionSummary>
         <Box
           className="flex h-[4rem] flex-1 cursor-pointer select-none items-center bg-[#e4e4e438] py-1"

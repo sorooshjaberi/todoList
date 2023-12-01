@@ -39,7 +39,7 @@ const TodoDetail = (props: Props) => {
   const queryClient = useQueryClient();
 
   useEffect(() => {
-    if (todoValues) {
+    if (Object.keys(todoValues).length) {
       mutateAsync({ todoNumber: props.todoNumber, todoData: todoValues }).then(
         (res) => {
           queryClient.invalidateQueries({
