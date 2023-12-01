@@ -12,7 +12,7 @@ import {
 } from "@mui/material";
 import { ShowGroupResponse, Todo, TodoGroup } from "../../../models/todos";
 import useShowGroups from "../../../hooks/todos/useShowGroups";
-import { MouseEvent, memo, useState } from "react";
+import { MouseEvent, memo, useEffect, useState } from "react";
 import TodoItem from "../todoItem";
 import TranslateL2RSmall from "../../ui/TranslateL2RSmall";
 import { motion } from "framer-motion";
@@ -64,6 +64,13 @@ const GroupItem = (props: Props) => {
   }
 
   const queryClient = useQueryClient();
+
+  useEffect(() => {
+    if (latestPathItem !== group.id) {
+      setTempNewFolder(undefined)
+      setTempNewTodo(undefined);
+    }
+  }, [latestPathItem]);
 
   const addGroupHandler = (name: string) => {
     mutateAsync({ name, parent: currentPath[currentPath.length - 1] }).then(
