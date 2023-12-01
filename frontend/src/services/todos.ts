@@ -12,6 +12,7 @@ import {
   AddTodoResponse,
   EditTodoPayload,
   EditTodoResponse,
+  DeleteGroupResponse,
 } from "../models/todos";
 
 export const showGroups = (group?: number) => {
@@ -39,3 +40,7 @@ export const editTodo = async (props: {
     { todoData: props.todoData },
   );
 };
+
+export const deleteGroup = async (groupId : number)=> {
+  return myAxios.delete<DeleteGroupResponse>(`/todolist/todoGroups/${groupId}/delete`)
+}

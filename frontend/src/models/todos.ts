@@ -43,3 +43,5 @@ export type AddGroupResponse = { id: number };
 export type EditTodoPayload = Partial<Todo>;
 
 export type EditTodoResponse = Todo;
+
+export type DeleteGroupResponse= {message : string}
