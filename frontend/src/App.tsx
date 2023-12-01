@@ -5,7 +5,7 @@ import QueryProvider from "./providers/QueryProvider";
 import SideBar from "./components/sidebar/SideBar";
 import MainLayout from "./components/layout/MainLayout";
 import { TodoHandlerProvider } from "./providers/TodoHandler";
-import Todo from "./components/Todo";
+import Todo from "./components/TodoDetail";
 import { ToastContainer } from "react-toastify";
 import cntl from "cntl";
 import ErrorBoundry from "./providers/ErrorBoundry";

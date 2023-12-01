@@ -9,7 +9,9 @@ import {
   Todos,
   AddGroupPayload,
   AddGroupResponse,
-  AddTodoResponse
+  AddTodoResponse,
+  EditTodoPayload,
+  EditTodoResponse,
 } from "../models/todos";
 
 export const showGroups = (group?: number) => {
@@ -24,6 +26,16 @@ export const addTodo = async (props: AddTodoPayload) => {
   return myAxios.post<AddTodoResponse>("/todolist/todos/new", props);
 };
 
-export const addGroup = async (props : AddGroupPayload)=>{
-  return myAxios.post<AddGroupResponse>("/todolist/todoGroups/new", props)
-}
+export const addGroup = async (props: AddGroupPayload) => {
+  return myAxios.post<AddGroupResponse>("/todolist/todoGroups/new", props);
+};
+
+export const editTodo = async (props: {
+  todoData: EditTodoPayload;
+  todoNumber: number;
+}) => {
+  return myAxios.put<EditTodoResponse>(
+    `/todolist/todos/${props.todoNumber}/edit`,
+    { todoData: props.todoData },
+  );
+};

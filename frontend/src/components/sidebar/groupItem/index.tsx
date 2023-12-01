@@ -65,8 +65,6 @@ const GroupItem = (props: Props) => {
 
   const queryClient = useQueryClient();
 
-  const groupData = queryClient.getQueryData(["todoGroup", group.id]);
-
   const addGroupHandler = (name: string) => {
     mutateAsync({ name, parent: currentPath[currentPath.length - 1] }).then(
       () => {
@@ -83,6 +81,12 @@ const GroupItem = (props: Props) => {
     if (enabled) {
       setCurrentPath((prev) => prev.filter((item) => item !== group.id));
     } else {
+      setCurrentPath((prev) => [...prev, group.id]);
+    }
+  };
+
+  const addGroupToPath = () => {
+    if (currentPath.findIndex((item) => item === group.id) === -1) {
       setCurrentPath((prev) => [...prev, group.id]);
     }
   };
@@ -109,6 +113,7 @@ const GroupItem = (props: Props) => {
                   group,
                   setTempNewFolder,
                   setTempNewTodo,
+                  addGroupToPath,
                 }}
               />
             )}
@@ -126,6 +131,20 @@ const GroupItem = (props: Props) => {
         <AccordionDetails>
           {isSuccess && (
             <Box className="max-h-[80%] overflow-y-auto">
+              {tempTodos.map((todo, index) => (
+                <Box
+                  className="my-3 px-[1rem]"
+                  onClick={(e) => e.stopPropagation()}
+                  key={index}
+                >
+                  <TodoItem
+                    clearTemp={() => setTempNewTodo(undefined)}
+                    index={index}
+                    depth={depth}
+                    todo={todo}
+                  />
+                </Box>
+              ))}
               {tempGroups.map((group, index) => (
                 <GroupItem
                   clearTempGroup={() => setTempNewFolder(undefined)}
@@ -134,17 +153,6 @@ const GroupItem = (props: Props) => {
                   key={index}
                   group={group}
                 />
-              ))}
-              {tempTodos.map((todo, index) => (
-                <Box className="px-[1rem] my-3" onClick={(e) => e.stopPropagation()}>
-                  <TodoItem
-                    clearTemp={() => setTempNewTodo(undefined)}
-                    index={index}
-                    depth={depth}
-                    key={index}
-                    todo={todo}
-                  />
-                </Box>
               ))}
             </Box>
           )}

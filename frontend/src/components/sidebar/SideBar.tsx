@@ -12,8 +12,8 @@ const SideBar = (props: Props) => {
       <SideBarHeader />
       <Box className="flex-1">
         {data?.groups?.map((group, index) => (
-          <Box className=" my-4">
-            <GroupItem index={index} depth={0} key={index} group={group} />
+          <Box className=" my-4" key={index}>
+            <GroupItem index={index} depth={0} group={group} />
           </Box>
         ))}
       </Box>

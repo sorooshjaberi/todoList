@@ -39,3 +39,7 @@ export type AddTodoResponse = Todo;
 export type AddGroupPayload = { name: string; parent?: number };
 
 export type AddGroupResponse = { id: number };
+
+export type EditTodoPayload = Partial<Todo>;
+
+export type EditTodoResponse = Todo;
