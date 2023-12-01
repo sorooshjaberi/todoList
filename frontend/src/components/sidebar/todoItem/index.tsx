@@ -43,6 +43,9 @@ const TodoItem = (props: Props) => {
     else {
       e.stopPropagation();
     }
+    if (isThisCurrentTodo) {
+      setCurrentTodo(-1);
+    }
   };
 
   const addHandler = (title: string) => {

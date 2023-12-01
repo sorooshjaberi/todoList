@@ -21,7 +21,7 @@ export const TodoHandlerCtx = createContext<{
 });
 
 export const TodoHandlerProvider = (props: { children: ReactNode }) => {
-  const [currentTodo, setCurrentTodo] = useState<number>();
+  const [currentTodo, setCurrentTodo] = useState<number>(-1);
   const [currentPath, setCurrentPath] = useState<number[]>([]);
 
   return (
