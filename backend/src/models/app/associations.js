@@ -18,3 +18,6 @@ TodoGroup.belongsTo(TodoGroup);
 
 Todo.hasMany(Schedule);
 Schedule.belongsTo(Todo);
+
+Schedule.belongsTo(User);
+User.hasMany(Schedule);

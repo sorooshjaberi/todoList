@@ -7,6 +7,7 @@ import { todoSingleSoftDelete } from "../../../controllers/app/deleteTodo.js";
 import { groupSingleSoftDelete } from "../../../controllers/app/deleteGroups.js";
 import { showTodo } from "../../../controllers/app/showTodo.js";
 import { editTodoGroupParent } from "../../../controllers/app/editGroup.js";
+import { createSchedule } from "../../../controllers/app/createSchedule.js";
 
 const todolistRouter = express.Router();
 
@@ -24,6 +25,8 @@ todolistRouter.delete("/todoGroups/:groupId/delete", groupSingleSoftDelete);
 
 todolistRouter.get("/todos/:todoId", showTodo);
 
-todolistRouter.patch("/todoGroups/edit", editTodoGroupParent)
+todolistRouter.patch("/todoGroups/edit", editTodoGroupParent);
+
+todolistRouter.post("/schedules/create", createSchedule);
 
 export default todolistRouter;

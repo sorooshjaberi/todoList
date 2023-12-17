@@ -11,5 +11,10 @@ const Schedule = db.define("schedule", {
     type: DataTypes.DATE,
     allowNull: false,
   },
+  text: {
+    type: DataTypes.STRING,
+    defaultValue: "Reminder",
+    allowNull: false,
+  },
 });
 export default Schedule;
