@@ -69,7 +69,7 @@ const TodoItem = (props: Props) => {
     <Accordion expanded={isThisCurrentTodo}>
       <AccordionSummary>
         <Box
-          className="flex h-[4rem] flex-1 cursor-pointer select-none items-center bg-[#e4e4e438] py-1 px-2"
+          className="flex h-[4rem] flex-1 rounded-md cursor-pointer select-none items-center bg-[#e4e4e438] py-1 px-2"
           borderLeft={2}
           borderColor={({ palette }) => palette.primary.light}
           bgcolor={isThisCurrentTodo ? lighten("#e4e4e438", 0.5) : undefined}

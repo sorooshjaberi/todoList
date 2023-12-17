@@ -67,7 +67,7 @@ const GroupItem = (props: Props) => {
 
   useEffect(() => {
     if (latestPathItem !== group.id) {
-      setTempNewFolder(undefined)
+      setTempNewFolder(undefined);
       setTempNewTodo(undefined);
     }
   }, [latestPathItem]);
@@ -109,7 +109,7 @@ const GroupItem = (props: Props) => {
       >
         <AccordionSummary>
           <Box
-            className="flex h-[4rem] w-full cursor-pointer select-none items-center justify-between gap-2 bg-glassNormal px-2 py-1 transition-all duration-300 hover:shadow-meloInner"
+            className="flex h-[4rem] w-full cursor-pointer select-none items-center justify-between gap-2 rounded-md bg-glassNormal px-2 py-1 transition-all duration-300 hover:shadow-meloInner"
             bgcolor={({ palette }) =>
               enabled ? lighten(palette.primary.light, depth * 0.1) : undefined
             }
@@ -137,7 +137,7 @@ const GroupItem = (props: Props) => {
 
         <AccordionDetails>
           {isSuccess && (
-            <Box className="max-h-[80%] overflow-y-auto">
+            <Box className="max-h-[80%] overflow-y-hidden">
               {tempTodos.map((todo, index) => (
                 <Box
                   className="my-3 px-[1rem]"

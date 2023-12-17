@@ -1,14 +1,17 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { ChangeEvent, memo, useEffect, useState } from "react";
 import useShowTodo from "../../hooks/todos/useShowTodo";
-import { useTodoHandler } from "../../providers/TodoHandler";
+import { AnimatePresence, Variant, Variants, motion } from "framer-motion";
 import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
   Box,
+  Button,
   CircularProgress,
   IconButton,
-  Snackbar,
+  Stack,
   TextField,
-  TextareaAutosize,
   Typography,
 } from "@mui/material";
 import useEditTodo from "../../hooks/todos/useEditTodo";
@@ -17,19 +20,30 @@ import useDebounce from "../../hooks/useDebounce";
 import { useQueryClient } from "@tanstack/react-query";
 import useFirstTime from "../../hooks/useFirstTime";
 import useDeleteTodo from "../../hooks/todos/useDeleteTodo";
-import { Delete } from "@mui/icons-material";
+import { Delete, AddAlert } from "@mui/icons-material";
 import { successToast } from "../../lib/Toastify";
-
+import DeleteButton from "./DeleteButton";
+import {
+  DatePicker,
+  MobileDatePicker,
+  MobileTimePicker,
+  TimePicker,
+} from "@mui/x-date-pickers";
+import moment from "moment";
+import AddSchedule from "./AddSchedule";
 type Props = { todoNumber: number; checked: boolean };
 
+
+
 const TodoDetail = (props: Props) => {
+  const [isScheduleOpen, setIsScheduleOpen] = useState<boolean>(false);
   const {
     data: todoDetails,
     isLoading,
     isSuccess,
   } = useShowTodo({ todoId: props.todoNumber });
 
-  const { mutateAsync: deleteTodo } = useDeleteTodo();
+  // const { mutateAsync: deleteTodo } = useDeleteTodo();
 
   const [todoValues, setTodoValues] = useState<Partial<Todo>>();
 
@@ -72,6 +86,10 @@ const TodoDetail = (props: Props) => {
     }));
   };
 
+  const toggleSchedule = () => {
+    setIsScheduleOpen((prev) => !prev);
+  };
+
   if (isLoading) {
     return (
       <Box className="flex h-full items-center justify-center">
@@ -81,7 +99,7 @@ const TodoDetail = (props: Props) => {
   }
   if (isSuccess) {
     return (
-      <Box className="flex flex-col gap-6 px-4">
+      <Box className="flex flex-col gap-6 overflow-y-hidden px-4">
         <TextField
           fullWidth
           name="title"
@@ -98,18 +116,17 @@ const TodoDetail = (props: Props) => {
           multiline
         />
         <Box>
-          <IconButton
-            onClick={(e) => {
-              deleteTodo(todoDetails.id).then((res) => {
-                successToast(res.data.message);
-                queryClient.invalidateQueries({
-                  queryKey: ["todoGroup", todoDetails.todoGroupId],
-                });
-              });
-            }}
-          >
-            <Delete color="error"/>
-          </IconButton>
+          <Box className="mb-4 flex items-center justify-end">
+            <DeleteButton todoDetails={todoDetails} />
+            <IconButton onClick={toggleSchedule}>
+              <AddAlert color="disabled" />
+            </IconButton>
+          </Box>
+          <AnimatePresence>
+            {isScheduleOpen && (
+        <AddSchedule toggleSchedule={toggleSchedule}/>
+            )}
+          </AnimatePresence>
         </Box>
       </Box>
     );

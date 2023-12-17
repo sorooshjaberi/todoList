@@ -12,6 +12,7 @@ const useShowGroups = (groupNumber?: number, enabled: boolean = true) => {
     select: (data) => data.data,
     gcTime: 1000 * 60 * 60,
     enabled,
+    refetchOnWindowFocus : false,
     meta: {
       onSuccess(data) {
         const path = (data.data as ShowGroupResponse).parentPath;

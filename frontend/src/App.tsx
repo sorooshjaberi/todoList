@@ -10,6 +10,9 @@ import { ToastContainer } from "react-toastify";
 import cntl from "cntl";
 import ErrorBoundry from "./providers/ErrorBoundry";
 import Controller from "./components/controller";
+import { LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
+import "moment/locale/es-us";
 
 function App() {
   return (
@@ -17,17 +20,22 @@ function App() {
     <>
       <PaletteModeProvider>
         <Theme>
-          <QueryProvider>
-            <TodoHandlerProvider>
-              <MainLayout>
-                <Box className="flex h-full justify-center">
-                  <Box className="z-10 max-w-[800px] flex-1 p-2">
-                    <SideBar />
+          <LocalizationProvider
+            dateAdapter={AdapterMoment}
+            adapterLocale="en-US"
+          >
+            <QueryProvider>
+              <TodoHandlerProvider>
+                <MainLayout>
+                  <Box className="flex h-full justify-center">
+                    <Box className="z-10 max-w-[800px] flex-1 p-2">
+                      <SideBar />
+                    </Box>
                   </Box>
-                </Box>
-              </MainLayout>
-            </TodoHandlerProvider>
-          </QueryProvider>
+                </MainLayout>
+              </TodoHandlerProvider>
+            </QueryProvider>
+          </LocalizationProvider>
         </Theme>
       </PaletteModeProvider>
     </>
