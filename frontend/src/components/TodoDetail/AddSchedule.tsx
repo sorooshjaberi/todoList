@@ -1,8 +1,10 @@
 import { Box, Button, Stack, TextField, Typography } from "@mui/material";
 import { MobileDatePicker, MobileTimePicker } from "@mui/x-date-pickers";
 import moment from "moment";
-import React from "react";
+import React, { useRef, useState } from "react";
 import { AnimatePresence, Variant, Variants, motion } from "framer-motion";
+import useCreateSchedule from "../../hooks/todos/useCreateSchedule";
+import { useTodoHandler } from "../../providers/TodoHandler";
 type Props = { toggleSchedule(): void };
 
 const scheduleBoxVariants: Variants = {
@@ -18,7 +20,30 @@ const scheduleBoxVariants: Variants = {
 
 const AddSchedule = (props: Props) => {
   const { toggleSchedule } = props;
-  const addSchedule = () => {};
+  const { mutateAsync: createSchedule } = useCreateSchedule();
+  const { currentTodo } = useTodoHandler();
+  const [time, setTime] = useState<ReturnType<typeof moment>>(moment());
+  const [date, setDate] = useState<ReturnType<typeof moment>>(
+    moment().add("1", "day"),
+  );
+  const [scheduleText, setScheduleText] = useState<string>("Do Your todo!");
+  const addSchedule = () => {
+    const wholeDate = moment({
+      year: date.year(),
+      month: date.month(),
+      date: date.date(),
+      hour: time.hour(),
+      minute: time.minute(),
+      second: 0,
+    });
+    const timeInMs = wholeDate.toDate().getTime();
+    createSchedule({ scheduleText, time: timeInMs, todoId: currentTodo }).then(
+      () => {
+        toggleSchedule();
+      },
+    );
+  };
+
   return (
     <Box
       component={motion.div}
@@ -32,18 +57,26 @@ const AddSchedule = (props: Props) => {
         Create Schedule
       </Typography>
       <Stack spacing={2}>
-        <TextField defaultValue="Do Your todo!" label="Schedule Title" />
+        <TextField
+          label="Schedule Title"
+          value={scheduleText}
+          onChange={(e) => {
+            setScheduleText(e.target.value);
+          }}
+        />
         <Stack direction="row" spacing={2}>
           <MobileTimePicker
-            defaultValue={moment()}
             className="flex-1"
             label="Time"
+            value={time}
+            onChange={setTime}
           />
           <MobileDatePicker
-            defaultValue={moment().add(1, "day")}
             className="flex-1"
             label="Date"
             minDate={moment()}
+            value={date}
+            onChange={setDate}
           />
         </Stack>
       </Stack>
