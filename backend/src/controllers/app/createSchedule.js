@@ -7,8 +7,9 @@ export const createSchedule = async (req, res) => {
   const { time, scheduleText, todoId } = req.body;
   const { userId } = req;
   try {
+    timeValidator(time);
     checkInputs(time, scheduleText, todoId);
-    const schedule = await setTimer(scheduleText, time, userId, todoId);
+    const schedule = await setTimer(scheduleText, time, +userId, +todoId);
 
     res.send(schedule);
   } catch (error) {
@@ -50,4 +51,8 @@ const getTodoTitle = async (todoId) => {
     attributes: ["title"],
   });
   return title;
+};
+
+const timeValidator = (time) => {
+  if (time < Date.now()) throw new Error("schedule time is in the past!");
 };
