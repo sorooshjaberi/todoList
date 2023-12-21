@@ -24,8 +24,3 @@ EXPOSE 8000
 # Start your application with PNPM
 CMD [ "pnpm", "dev" ]
 
-# Set up MySQL environment variables
-ENV db_username=test
-ENV db_pass=123456
-ENV db_name=todolist
-
