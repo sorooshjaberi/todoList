@@ -1,0 +1,35 @@
+version: "3.8"
+services:
+  web:
+    build: "./frontend"
+    ports:
+      - "80:5173"
+    volumes:
+      - "./frontend:/app"
+    env_file:
+      - "./envs/.frontend.env"
+  api:
+    build: "./backend"
+    ports:
+      - "8000:8000"
+    network_mode: "host"
+    env_file:
+      - "./envs/.backend.env"
+    depends_on:
+      - "db"
+    volumes:
+      - "./backend:/app"
+  db:
+    image: mysql:latest
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password_here
+      MYSQL_DATABASE: todolist
+      MYSQL_USER: test
+      MYSQL_PASSWORD: 123456
+    volumes:
+      - mysql-data:/var/lib/mysql
+
+volumes:
+  mysql-data:
