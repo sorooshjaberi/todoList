@@ -6,13 +6,15 @@ services:
       - "80:5173"
     volumes:
       - "./frontend:/app"
+    env_file:
+      - "./envs/.frontend.env"
   api:
     build: "./backend"
     ports:
       - "8000:8000"
     network_mode: "host"
     env_file:
-      - "./backend/.env"
+      - "./envs/.backend.env"
     depends_on:
       - "db"
     volumes:
