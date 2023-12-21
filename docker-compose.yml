@@ -4,6 +4,8 @@ services:
     build: "./frontend"
     ports:
       - "80:5173"
+    volumes:
+      - "./frontend:/app"
   api:
     build: "./backend"
     ports:
@@ -13,6 +15,8 @@ services:
       - "./backend/.env"
     depends_on:
       - "db"
+    volumes:
+      - "./backend:/app"
   db:
     image: mysql:latest
     ports:
